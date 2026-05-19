@@ -2,6 +2,9 @@
 //! it is used on Windows directly and it allows an in-memory authenticator
 //! to handle the prf extension in a more efficient manor.
 
+#[cfg(not(feature = "std"))]
+use hashbrown::HashMap;
+#[cfg(feature = "std")]
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};

@@ -1,4 +1,6 @@
-use std::array::TryFromSliceError;
+use alloc::vec::Vec;
+
+use core::array::TryFromSliceError;
 
 use super::ResponseStatusWords;
 

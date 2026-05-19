@@ -1,8 +1,14 @@
+use alloc::string::String;
+
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "typeshare")]
 use typeshare::typeshare;
 
+#[cfg(feature = "std")]
 use std::collections::HashMap;
+
+#[cfg(not(feature = "std"))]
+use hashbrown::HashMap;
 
 use crate::Bytes;
 

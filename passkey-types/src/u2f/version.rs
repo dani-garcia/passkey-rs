@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 use super::ResponseStatusWords;
 
 /// The u2f version representation

@@ -1,3 +1,5 @@
+use alloc::boxed::Box;
+
 use passkey_types::ctap2::{
     Ctap2Error,
     make_credential::{PublicKeyCredentialRpEntity, PublicKeyCredentialUserEntity},

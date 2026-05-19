@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 use coset::iana;
 use passkey_types::{
     ctap2::{Aaguid, Ctap2Error, Flags},

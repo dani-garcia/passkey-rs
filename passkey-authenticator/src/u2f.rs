@@ -1,5 +1,7 @@
 //! Follows U2F 1.2 <https://fidoalliance.org/specs/fido-u2f-v1.2-ps-20170411/fido-u2f-raw-message-formats-v1.2-ps-20170411.html>
 
+use alloc::{boxed::Box, string::String, vec::Vec};
+
 use crate::{
     Authenticator, CoseKeyPair, CredentialStore, UserValidationMethod, passkey::PasskeyAccessor,
 };
@@ -53,7 +55,10 @@ impl<S: CredentialStore + Sync + Send, U: UserValidationMethod + Sync + Send> U2
     ) -> Result<RegisterResponse, U2FError> {
         // Create Keypair on P256 curve
         let private_key = {
+            #[cfg(feature = "std")]
             let mut rng = rand::thread_rng();
+            #[cfg(not(feature = "std"))]
+            let mut rng = rand::rngs::OsRng;
             SecretKey::random(&mut rng)
         };
 
@@ -153,7 +158,7 @@ impl<S: CredentialStore + Sync + Send, U: UserValidationMethod + Sync + Send> U2
         let signature_target = request
             .application // 1. The application parameter [32 bytes] from the authentication request message.
             .into_iter()
-            .chain(std::iter::once(user_presence.into())) // 2. The ... user presence byte [1 byte].
+            .chain(core::iter::once(user_presence.into())) // 2. The ... user presence byte [1 byte].
             .chain(counter.to_be_bytes()) // 3. The ... counter [4 bytes].
             .chain(request.challenge) // 4. The challenge parameter [32 bytes] from the authentication request message.
             .collect::<Vec<u8>>();

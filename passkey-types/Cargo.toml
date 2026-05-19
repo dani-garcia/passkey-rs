@@ -16,31 +16,50 @@ version = "0.5.0"
 workspace = true
 
 [features]
-default = []
+default = ["std"]
+std = [
+  "ciborium/std",
+  "ciborium-io/std",
+  "data-encoding/std",
+  "hmac/std",
+  "indexmap/std",
+  "p256?/std",
+  "rand/std",
+  "rand/std_rng",
+  "serde/std",
+  "serde_json/std",
+  # preserve_order forces indexmap/std on transitively, so it can't be in no_std.
+  "serde_json/preserve_order",
+  "sha2/std",
+  "url/std",
+  "zeroize/std",
+]
 serialize_bytes_as_base64_string = []
 testable = ["dep:p256"]
 typeshare = ["dep:typeshare"]
 
 [dependencies]
 bitflags = "2"
-ciborium = "0.2"
-data-encoding = "2"
-hmac = "0.12"
-indexmap = { version = "2", features = ["serde"] }
-rand = "0.8"
-serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1", features = ["preserve_order"] }
-sha2 = "0.10"
-strum = { version = "0.27", features = ["derive"] }
+ciborium = { version = "0.2", default-features = false }
+ciborium-io = { version = "0.2", default-features = false }
+data-encoding = { version = "2", default-features = false, features = ["alloc"] }
+hashbrown = { version = "0.17", default-features = false, features = ["default-hasher", "serde"] }
+hmac = { version = "0.12", default-features = false }
+indexmap = { version = "2", default-features = false, features = ["serde"] }
+rand = { version = "0.8", default-features = false, features = ["alloc", "getrandom"] }
+serde = { version = "1", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1", default-features = false, features = ["alloc"] }
+sha2 = { version = "0.10", default-features = false }
+strum = { version = "0.27", default-features = false, features = ["derive"] }
 typeshare = { version = "1", optional = true }
-url = { version = "2", features = ["serde"] }
-zeroize = { version = "1", features = ["zeroize_derive"] }
+url = { version = "2", default-features = false, features = ["serde"] }
+zeroize = { version = "1", default-features = false, features = ["zeroize_derive", "alloc"] }
 # TODO: investigate rolling our own IANA listings and COSE keys
 coset = { workspace = true }
-p256 = { version = "0.13", features = [
+p256 = { version = "0.13", default-features = false, features = [
   "arithmetic",
-  "jwk",
-  "pem",
+  "ecdsa",
+  "pkcs8",
 ], optional = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]

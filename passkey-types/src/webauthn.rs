@@ -2,6 +2,8 @@
 //!
 //! [WebAuthn Level 3]: https://w3c.github.io/webauthn
 
+use alloc::string::String;
+
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "typeshare")]
 use typeshare::typeshare;

@@ -1,4 +1,4 @@
-use std::ops::Not;
+use core::ops::Not;
 
 use passkey_types::{
     crypto::hmac_sha256,

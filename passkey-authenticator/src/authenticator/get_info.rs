@@ -1,3 +1,5 @@
+use alloc::boxed::Box;
+
 use passkey_types::{
     ctap2::get_info::{Options, Response, Version},
     webauthn::PublicKeyCredentialParameters,

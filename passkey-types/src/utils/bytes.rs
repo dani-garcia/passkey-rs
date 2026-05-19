@@ -1,4 +1,6 @@
-use std::ops::{Deref, DerefMut};
+use alloc::{string::String, vec::Vec};
+
+use core::ops::{Deref, DerefMut};
 
 use serde::{Deserialize, Deserializer, Serialize, de::Visitor};
 #[cfg(feature = "typeshare")]
@@ -84,7 +86,7 @@ impl FromIterator<u8> for Bytes {
 impl IntoIterator for Bytes {
     type Item = u8;
 
-    type IntoIter = std::vec::IntoIter<u8>;
+    type IntoIter = alloc::vec::IntoIter<u8>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.into_iter()
@@ -94,7 +96,7 @@ impl IntoIterator for Bytes {
 impl<'a> IntoIterator for &'a Bytes {
     type Item = &'a u8;
 
-    type IntoIter = std::slice::Iter<'a, u8>;
+    type IntoIter = core::slice::Iter<'a, u8>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.0.iter()
@@ -124,7 +126,7 @@ impl<'de> Deserialize<'de> for Bytes {
         impl<'de> Visitor<'de> for Base64Visitor {
             type Value = Bytes;
 
-            fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            fn expecting(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
                 write!(f, "A vector of bytes or a base46(url) encoded string")
             }
             fn visit_borrowed_str<E>(self, v: &'de str) -> Result<Self::Value, E>

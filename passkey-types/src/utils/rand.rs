@@ -1,10 +1,18 @@
 //! Random number generator utilities used for tests
 
+use alloc::vec::Vec;
+
 use rand::RngCore;
 
+#[cfg(feature = "std")]
 fn random_fill(buffer: &mut [u8]) {
     let mut random = rand::thread_rng();
     random.fill_bytes(buffer);
+}
+
+#[cfg(not(feature = "std"))]
+fn random_fill(buffer: &mut [u8]) {
+    rand::rngs::OsRng.fill_bytes(buffer);
 }
 
 /// Generate random data of specific length.

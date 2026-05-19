@@ -16,18 +16,26 @@ version = "0.5.0"
 workspace = true
 
 [features]
-default = []
+default = ["std"]
+std = [
+  "coset/std",
+  "p256/std",
+  "passkey-types/std",
+  "rand/std",
+  "rand/std_rng",
+]
 testable = ["dep:mockall", "passkey-types/testable"]
 tokio = ["dep:tokio"]
 
 [dependencies]
 async-trait = "0.1"
 coset = { workspace = true }
+hashbrown = { version = "0.17", default-features = false, features = ["default-hasher"] }
 log = "0.4"
 mockall = { version = "0.11", optional = true }
-p256 = { version = "0.13", features = ["arithmetic", "jwk", "pem"] }
-passkey-types = { path = "../passkey-types", version = "0.5" }
-rand = "0.8"
+p256 = { version = "0.13", default-features = false, features = ["alloc", "arithmetic", "ecdsa", "pkcs8"] }
+passkey-types = { path = "../passkey-types", version = "0.5", default-features = false }
+rand = { version = "0.8", default-features = false, features = ["alloc", "getrandom"] }
 tokio = { version = "1", features = ["sync"], optional = true }
 
 [dev-dependencies]

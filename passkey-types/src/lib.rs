@@ -28,6 +28,11 @@
 //! [CTAP 2.0]: https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html
 //! [JSON encoding]: https://w3c.github.io/webauthn/#typedefdef-publickeycredentialjson
 
+#![cfg_attr(not(feature = "std"), no_std)]
+
+#[macro_use]
+extern crate alloc;
+
 #[macro_use]
 mod utils;
 

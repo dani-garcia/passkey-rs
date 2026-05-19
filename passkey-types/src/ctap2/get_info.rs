@@ -1,5 +1,7 @@
 //! <https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#authenticatorGetInfo>
-use std::num::NonZeroU128;
+use alloc::{string::String, vec::Vec};
+
+use core::num::NonZeroU128;
 
 use serde::{Deserialize, Serialize};
 

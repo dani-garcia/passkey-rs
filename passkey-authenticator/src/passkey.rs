@@ -1,4 +1,6 @@
-use std::{borrow::Cow, ops::Deref};
+use alloc::borrow::Cow;
+use alloc::vec::Vec;
+use core::ops::Deref;
 
 use coset::CoseKey;
 use passkey_types::{

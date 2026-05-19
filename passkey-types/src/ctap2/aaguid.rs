@@ -54,7 +54,7 @@ impl<'de> Deserialize<'de> for Aaguid {
         impl serde::de::Visitor<'_> for AaguidVisitior {
             type Value = Aaguid;
 
-            fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+            fn expecting(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
                 write!(f, "A byte string of {} bytes long", Aaguid::LEN)
             }
 

@@ -1,3 +1,5 @@
+use alloc::string::String;
+
 use coset::{CoseKeyBuilder, iana};
 use p256::{SecretKey, ecdsa::SigningKey};
 

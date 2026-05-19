@@ -114,7 +114,10 @@ where
         let credential_id = passkey_types::rand::random_vec(self.credential_id_length.into());
 
         let private_key = {
+            #[cfg(feature = "std")]
             let mut rng = rand::thread_rng();
+            #[cfg(not(feature = "std"))]
+            let mut rng = rand::rngs::OsRng;
             SecretKey::random(&mut rng)
         };
 

@@ -1,9 +1,8 @@
-use std::{
-    io::{Cursor, Read},
-    num::TryFromIntError,
-};
+use alloc::{string::ToString, vec::Vec};
 
 use ciborium::value::Value;
+use ciborium_io::Read;
+use core::num::TryFromIntError;
 use coset::{AsCborValue, CborSerializable, CoseKey};
 use serde::{Deserialize, Serialize};
 
@@ -140,7 +139,7 @@ impl<'de> Deserialize<'de> for AuthenticatorData {
         impl serde::de::Visitor<'_> for Visitor {
             type Value = AuthenticatorData;
 
-            fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+            fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
                 formatter.write_str("Authenticator Data")
             }
             fn visit_bytes<E>(self, v: &[u8]) -> Result<Self::Value, E>
@@ -175,7 +174,7 @@ impl AuthenticatorData {
 
         let flags =
             Flags::from_bits(flag_byte[0]).ok_or(coset::CoseError::OutOfRangeIntegerValue)?;
-        let mut managed_reader = Cursor::new(v);
+        let mut managed_reader: &[u8] = v;
         let attested_credential_data = flags
             .contains(Flags::AT)
             .then(|| AttestedCredentialData::from_reader(&mut managed_reader))
@@ -206,7 +205,7 @@ impl AuthenticatorData {
 
         self.rp_id_hash
             .into_iter()
-            .chain(std::iter::once(flags.into()))
+            .chain(core::iter::once(flags.into()))
             .chain(self.counter.unwrap_or_default().to_be_bytes())
             .chain(self.attested_credential_data.clone().into_iter().flatten())
             .chain(
@@ -277,7 +276,7 @@ impl AttestedCredentialData {
 }
 
 impl AttestedCredentialData {
-    fn from_reader<R: Read>(reader: &mut R) -> coset::Result<Self> {
+    fn from_reader(reader: &mut &[u8]) -> coset::Result<Self> {
         let mut aaguid = [0; 16];
         reader.read_exact(&mut aaguid).map_err(io_error)?;
         let aaguid = Aaguid(aaguid);

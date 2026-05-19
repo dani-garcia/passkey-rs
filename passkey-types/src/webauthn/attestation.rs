@@ -1,9 +1,9 @@
 //! Types specific to public key credential creation
+use alloc::{string::String, vec::Vec};
+use core::fmt;
 use coset::iana::{self, EnumI64};
-use indexmap::IndexMap;
 use serde::de::Error;
 use serde::{Deserialize, Serialize, Serializer};
-use std::fmt;
 #[cfg(feature = "typeshare")]
 use typeshare::typeshare;
 
@@ -25,6 +25,11 @@ use crate::{
     ctap2::{Aaguid, AttestedCredentialData, AuthenticatorData},
     webauthn::AuthenticatorAssertionResponse,
 };
+
+#[cfg(feature = "std")]
+type IndexMap<K, V> = indexmap::IndexMap<K, V>;
+#[cfg(not(feature = "std"))]
+type IndexMap<K, V> = indexmap::IndexMap<K, V, hashbrown::DefaultHashBuilder>;
 
 /// The response to the successful creation of a PublicKeyCredential
 #[cfg_attr(feature = "typeshare", typeshare(swift = "Equatable, Hashable"))]
@@ -613,7 +618,7 @@ pub struct AuthenticatorAttestationResponse {
 /// * `type`, `challenge`, `origin`, `crossOrigin` must always be present in the serialized format
 ///   _in that order_.
 /// * Any extra parameters must keep the order in which they were used in the signature, hence the
-///   use of [`IndexMap`].
+///   use of [`indexmap::IndexMap`].
 ///
 /// <https://w3c.github.io/webauthn/#dictionary-client-data>
 ///

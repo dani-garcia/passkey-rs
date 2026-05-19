@@ -5,6 +5,8 @@
 //!
 //! <https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#authenticator-api>
 
+use alloc::boxed::Box;
+
 use passkey_types::ctap2::{StatusCode, get_assertion, get_info, make_credential};
 
 use crate::{Authenticator, CredentialStore, UserValidationMethod};

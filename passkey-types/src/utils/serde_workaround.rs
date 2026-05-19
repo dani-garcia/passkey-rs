@@ -68,7 +68,7 @@ macro_rules! serde_workaround {
             struct FieldVisitor;
             impl<'de> serde::de::Visitor<'de> for FieldVisitor {
                 type Value = Ident;
-                fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
                     formatter.write_str("field identifier")
                 }
                 fn visit_u128<E>(self, value: u128) -> Result<Self::Value, E>
@@ -104,7 +104,7 @@ macro_rules! serde_workaround {
                 where
                     E: serde::de::Error,
                 {
-                    let ident = if let Ok(value) = std::str::from_utf8(value) {
+                    let ident = if let Ok(value) = core::str::from_utf8(value) {
                         Ident::try_from(value).unwrap_or(Ident::Unknown)
                     } else {
                         Ident::Unknown
@@ -126,7 +126,7 @@ macro_rules! serde_workaround {
 
             impl<'de> serde::de::Visitor<'de> for Visitor {
                 type Value = $name;
-                fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
                     formatter.write_str(concat!("struct ", stringify!($name)))
                 }
 
@@ -203,8 +203,8 @@ macro_rules! serde_deserialize_with {
     ($key:ident; $field:ident; $map:ident; $ty:ty; $de_with:path; $name:ident) => {{
         struct __DeserializeWith<'de> {
             value: $ty,
-            phantom: ::std::marker::PhantomData<$name>,
-            lifetime: ::std::marker::PhantomData<&'de ()>,
+            phantom: ::core::marker::PhantomData<$name>,
+            lifetime: ::core::marker::PhantomData<&'de ()>,
         }
         impl<'de> ::serde::Deserialize<'de> for __DeserializeWith<'de> {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
@@ -213,8 +213,8 @@ macro_rules! serde_deserialize_with {
             {
                 $de_with(deserializer).map(|value| __DeserializeWith {
                     value,
-                    phantom: ::std::marker::PhantomData,
-                    lifetime: ::std::marker::PhantomData,
+                    phantom: ::core::marker::PhantomData,
+                    lifetime: ::core::marker::PhantomData,
                 })
             }
         }

@@ -9,6 +9,8 @@
 //! [webauthn]: https://w3c.github.io/webauthn/#sctn-defined-extensions
 //! [AuthenticatorDisplayName]: https://w3c.github.io/webauthn/#dom-credentialpropertiesoutput-authenticatordisplayname
 
+use alloc::vec::Vec;
+
 use passkey_types::ctap2::{StatusCode, get_assertion, get_info, make_credential};
 
 mod hmac_secret;

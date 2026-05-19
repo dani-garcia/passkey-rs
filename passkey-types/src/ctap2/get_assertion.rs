@@ -1,4 +1,6 @@
 //! <https://fidoalliance.org/specs/fido-v2.0-ps-20190130/fido-client-to-authenticator-protocol-v2.0-ps-20190130.html#authenticatorGetAssertion>
+use alloc::{string::String, vec::Vec};
+
 use serde::{Deserialize, Serialize};
 
 use crate::{

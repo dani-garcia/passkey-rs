@@ -1,6 +1,8 @@
 //! Utilitie functions for encoding datatypes in a consistent way accross the `passkey` libraries
 //! with a mind on global webauthn ecosystem support.
 
+use alloc::{string::String, vec::Vec};
+
 use data_encoding::{BASE64, BASE64_NOPAD, BASE64URL, BASE64URL_NOPAD, Specification};
 
 /// Convert bytes to base64 without padding

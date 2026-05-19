@@ -1,5 +1,7 @@
 //! Types used for public key authentication
 
+use alloc::{string::String, vec::Vec};
+
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "typeshare")]
 use typeshare::typeshare;

@@ -1,4 +1,4 @@
-use std::fmt::Display;
+use core::fmt::Display;
 
 /// Error converting an integer code into an enum variant. The integer is not within the range of values
 /// in the known error type.
@@ -6,7 +6,7 @@ use std::fmt::Display;
 pub struct CodeOutOfRange<I>(pub I);
 
 impl<I: Display> Display for CodeOutOfRange<I> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         write!(f, "Value {} is out of range", self.0)
     }
 }

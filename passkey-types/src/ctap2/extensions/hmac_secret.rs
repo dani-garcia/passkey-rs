@@ -58,8 +58,8 @@ impl From<[u8; 64]> for HmacSecretSaltOrOutput {
 #[derive(Debug)]
 pub struct TryFromSliceError;
 
-impl From<std::array::TryFromSliceError> for TryFromSliceError {
-    fn from(_: std::array::TryFromSliceError) -> Self {
+impl From<core::array::TryFromSliceError> for TryFromSliceError {
+    fn from(_: core::array::TryFromSliceError) -> Self {
         TryFromSliceError
     }
 }

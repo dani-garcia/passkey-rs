@@ -1,5 +1,7 @@
 //! Common types used in both Attestation (registration) and Assertion (authentication).
 //!
+use alloc::vec::Vec;
+
 use serde::{Deserialize, Serialize};
 #[cfg(feature = "typeshare")]
 use typeshare::typeshare;

@@ -1,5 +1,11 @@
 #[cfg(any(feature = "tokio", test))]
-use std::sync::Arc;
+use alloc::sync::Arc;
+use alloc::{boxed::Box, vec::Vec};
+
+#[cfg(not(feature = "std"))]
+use hashbrown::HashMap;
+#[cfg(feature = "std")]
+use std::collections::HashMap;
 
 use passkey_types::{
     Passkey,
@@ -82,7 +88,7 @@ pub trait CredentialStore {
 /// In-memory store for Passkeys
 ///
 /// Useful for tests.
-pub type MemoryStore = std::collections::HashMap<Vec<u8>, Passkey>;
+pub type MemoryStore = HashMap<Vec<u8>, Passkey>;
 
 #[async_trait::async_trait]
 impl CredentialStore for MemoryStore {

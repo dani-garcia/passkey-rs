@@ -1,5 +1,7 @@
+use alloc::vec::Vec;
+
 use crate::ctap2::Flags;
-use std::array::TryFromSliceError;
+use core::array::TryFromSliceError;
 
 use super::ResponseStatusWords;
 

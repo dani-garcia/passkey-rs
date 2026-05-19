@@ -1,6 +1,8 @@
 //! Utilities to be used in serde derives for more robust (de)serializations.
 
-use std::str::FromStr;
+use alloc::{string::String, vec::Vec};
+
+use core::str::FromStr;
 
 use serde::{
     Deserialize, Deserializer,
@@ -45,17 +47,17 @@ where
 pub(crate) fn ignore_unknown_opt_vec<'de, D, T>(de: D) -> Result<Option<Vec<T>>, D::Error>
 where
     D: Deserializer<'de>,
-    T: Deserialize<'de> + std::fmt::Debug,
+    T: Deserialize<'de> + core::fmt::Debug,
 {
-    struct IgnoreUnknown<T>(std::marker::PhantomData<T>);
+    struct IgnoreUnknown<T>(core::marker::PhantomData<T>);
 
     impl<'d, T> Visitor<'d> for IgnoreUnknown<T>
     where
-        T: Deserialize<'d> + std::fmt::Debug,
+        T: Deserialize<'d> + core::fmt::Debug,
     {
         type Value = Option<Vec<T>>;
 
-        fn expecting(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        fn expecting(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
             write!(f, "a list of types")
         }
 
@@ -81,14 +83,14 @@ where
 
     // TODO: This is a temporary workaround until windows sends us the correct type in CredentialDescriptor::transport
     Ok(de
-        .deserialize_seq(IgnoreUnknown(std::marker::PhantomData))
+        .deserialize_seq(IgnoreUnknown(core::marker::PhantomData))
         .unwrap_or_default())
 }
 
 pub(crate) fn ignore_unknown_vec<'de, D, T>(de: D) -> Result<Vec<T>, D::Error>
 where
     D: Deserializer<'de>,
-    T: Deserialize<'de> + std::fmt::Debug,
+    T: Deserialize<'de> + core::fmt::Debug,
 {
     ignore_unknown_opt_vec(de)
         .and_then(|opt| opt.ok_or_else(|| D::Error::custom("Expected a list of types")))
@@ -106,7 +108,7 @@ pub mod i64_to_iana {
     }
 }
 
-struct StringOrNum<T>(pub std::marker::PhantomData<T>);
+struct StringOrNum<T>(pub core::marker::PhantomData<T>);
 
 impl<T> Visitor<'_> for StringOrNum<T>
 where
@@ -114,7 +116,7 @@ where
 {
     type Value = T;
 
-    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
         formatter.write_str("A number or a stringified number")
     }
 
@@ -216,7 +218,7 @@ pub(crate) fn maybe_stringified_num<'de, D>(de: D) -> Result<Option<u32>, D::Err
 where
     D: Deserializer<'de>,
 {
-    de.deserialize_any(StringOrNum(std::marker::PhantomData))
+    de.deserialize_any(StringOrNum(core::marker::PhantomData))
         .map(Some)
 }
 
@@ -227,7 +229,7 @@ where
     D: Deserializer<'de>,
 {
     Ok(de
-        .deserialize_any(StringOrNum(std::marker::PhantomData))
+        .deserialize_any(StringOrNum(core::marker::PhantomData))
         .ok())
 }
 
@@ -236,7 +238,7 @@ struct StringOrBool;
 impl Visitor<'_> for StringOrBool {
     type Value = bool;
 
-    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
         formatter.write_str("Expected a boolean or a string encoded boolean")
     }
 

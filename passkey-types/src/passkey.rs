@@ -1,4 +1,6 @@
-use std::fmt::Debug;
+use alloc::{string::String, vec::Vec};
+
+use core::fmt::Debug;
 
 use super::u2f::{AuthenticationRequest, RegisterRequest, RegisterResponse};
 use crate::{Bytes, ctap2::make_credential as ctap2, webauthn};
@@ -212,7 +214,7 @@ impl From<&Passkey> for webauthn::PublicKeyCredentialDescriptor {
 }
 
 impl Debug for Passkey {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_struct("Passkey")
             .field("key_type", &self.key.kty)
             .field("counter", &self.counter)
@@ -239,7 +241,7 @@ pub struct StoredHmacSecret {
 }
 
 impl Debug for StoredHmacSecret {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.debug_struct("StoredHmacSecret")
             .field("cred_with_uv", &"<Redacted>")
             .field(
